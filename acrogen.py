@@ -14,7 +14,8 @@ Keywords = ['Cognitive',
             'Robot',
             'Learning',
             'Autonomous',
-            'Manipulation']
+            'Manipulation',
+            'Smart']
 
 def isVowel(key):
     return key.lower() in ['a','e','i','o','u']
@@ -25,11 +26,13 @@ def is_english_word(word):
 
 # only initials
 bases = {key:[key[0]] for key in Keywords}
+bases_unique = set([key for key in Keywords])
 # plus pairs if not both vowel/consonnant
 for key in Keywords:
     for letter in key:
-        if isVowel(key[0])!=isVowel(letter):
+        if isVowel(key[0])!=isVowel(letter) and key[0]+letter not in bases_unique:
             bases[key].append(key[0]+letter)
+            bases_unique.add(key[0]+letter)
     bases[key] = list(set(bases[key]))
 
 print("bases are " + str(bases))
