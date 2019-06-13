@@ -6,6 +6,9 @@ Find Cool Acronyms for the Team Name
 """
 from itertools import combinations, permutations, product
 
+with open("en_words.txt") as word_file:
+    english_words = set(word.strip().lower() for word in word_file)
+
 Keywords = ['Cognitive',
             'Intelligent',
             'Robot',
@@ -15,6 +18,10 @@ Keywords = ['Cognitive',
 
 def isVowel(key):
     return key.lower() in ['a','e','i','o','u']
+
+def is_english_word(word):
+    return word.lower() in english_words
+
 
 # only initials
 bases = {key:[key[0]] for key in Keywords}
@@ -35,7 +42,10 @@ for c in comb:
     perm = permutations(c)
     for p in perm:
         for acrolen in range(2,6):
-            acronyms += [''.join(p[:acrolen])]
+            w = ''.join(p[:acrolen])
+            if len(w)>3 and is_english_word(w):
+                print(w)
+                acronyms += [w]
 
 # unique vals sorted
 acronyms = list(sorted((set(acronyms))))
