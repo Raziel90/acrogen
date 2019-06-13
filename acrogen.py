@@ -6,7 +6,7 @@ Find Cool Acronyms for the Team Name
 """
 from itertools import combinations, permutations, product
 
-with open("en_words.txt") as word_file:
+with open("vocab.txt") as word_file:
     english_words = set(word.strip().lower() for word in word_file)
 
 Keywords = ['Cognitive',
