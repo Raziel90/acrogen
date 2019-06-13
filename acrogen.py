@@ -34,7 +34,7 @@ for key in Keywords:
 
 print("bases are " + str(bases))
 
-acronyms = []
+acronyms = set()
 
 comb = list(set(product(*bases.values())))
 
@@ -43,12 +43,12 @@ for c in comb:
     for p in perm:
         for acrolen in range(2,6):
             w = ''.join(p[:acrolen])
-            if len(w)>3 and is_english_word(w):
+            if len(w)>3 and w not in acronyms and is_english_word(w):
                 print(w)
-                acronyms += [w]
+                acronyms.add(w)
 
-# unique vals sorted
-acronyms = list(sorted((set(acronyms))))
+# sorted
+acronyms = list(sorted(acronyms))
 
 print(str(len(acronyms)) + ' Acronyms Found!')
 
