@@ -5,13 +5,14 @@ Generate Acronyms from keywords
 `python acrogen.py -i keywords.txt -d vocab.txt -o acros`
 
 ---
-arguments:
+Arguments:
 - `-i` keyword file 
 - `-d` dictionary file
 - `-o` acronym file 
 - `-v` verbose (True/False)
+
 ---
-default values:
+Default values:
 - `keywords.txt` input file containing keywords to generate acronyms
 - `vocab.txt` input file containing vocabulary file with words to match
 - `acros` output file with acronyms
