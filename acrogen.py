@@ -4,6 +4,7 @@ Spyder Editor
 
 Find Cool Acronyms for the Team Name
 """
+
 import getopt
 import re
 import sys
