@@ -93,7 +93,7 @@ def main(argv):
         elif o in ('-d', '--dictionary'):
             dictionaryfile = a
         elif o in ('-v', '--verbose'):
-            verbose = a
+            verbose = True
         elif o in ('-o', '--output'):
             outputfile = a
         else:
