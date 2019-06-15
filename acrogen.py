@@ -6,61 +6,15 @@ Find Cool Acronyms for the Team Name
 """
 
 import getopt
-import re
 import sys
-from itertools import permutations, product
 
-from tqdm import tqdm
+from acronym_discoverer import Acronym_Discoverer
 
 
 def read_vocabulary(filename="vocab.txt"):
     with open(filename) as word_file:
         vocabulary = set(word.strip() for word in word_file.readlines())
     return vocabulary
-
-
-def isVowel(key):
-    return key.lower() in ['a', 'e', 'i', 'o', 'u']
-
-
-def find_wowels(key: str):
-    return list(set(re.findall(r'[aeiou]', key.lower())));
-
-
-def is_in_vocab(vocabulary, word: str):
-    return word.lower() in vocabulary
-
-
-def find_bases(Keywords):
-    # only initials
-    bases = {key: [key[0]] for key in Keywords}
-    bases_unique = set(Keywords)
-
-    # plus pairs if not both vowel/consonnant
-    for key in Keywords:
-        key_vowels = find_wowels(key)
-        for letter in key_vowels:
-            if key[0].lower() != letter and key[0] + letter not in bases_unique:
-                bases[key].append(key[0] + letter)
-                bases_unique.add(key[0] + letter)
-        bases[key] = list(set(bases[key]))
-
-    return bases
-
-
-def extract_acronyms(bases, vocabulary):
-    acronyms = set()
-    comb = list(set(product(*bases.values())))
-    for c in tqdm(comb):
-        perm = permutations(c)
-        for p in perm:
-            for acrolen in range(2, 6):
-                w = ''.join(p[:acrolen])
-                if len(w) > 3 and w not in acronyms and is_in_vocab(vocabulary, w):
-                    acronyms.add(w)
-    # sorted
-    return list(sorted(acronyms))
-
 
 def save_acronyms(acronyms, filename='acros'):
     with open(filename, 'w') as acrofile:
@@ -101,12 +55,16 @@ def main(argv):
 
     Keywords = read_vocabulary(keywordfile)
     vocabulary = read_vocabulary(dictionaryfile)
-    bases = find_bases(Keywords)
-    acronyms = extract_acronyms(bases, vocabulary)
+
+    generator = Acronym_Discoverer(Keywords, vocabulary)
+    acronyms = generator.compute_acronyms()
+    # bases = find_bases(Keywords)
+    # acronyms = extract_acronyms(bases, vocabulary)
+
     save_acronyms(acronyms, outputfile)
 
     if verbose:
-        print("bases are " + str(bases))
+        print("bases are " + str(generator.bases))
         print(acronyms)
     print(str(len(acronyms)) + ' Acronyms Found!')
 
