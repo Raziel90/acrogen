@@ -35,8 +35,11 @@ def main(argv):
     keywordfile, dictionaryfile, outputfile = ('keywords.txt', 'vocab.txt', 'acros')
     max_len = 6
     verbose = False
+    complement_acr = None
     try:
-        opts, args = getopt.getopt(argv, "i:d:v:o:M", ["input", "dictionary", "verbose", "output", "max_length"])
+        opts, args = getopt.getopt(argv,
+                                   "i:d:v:o:M:a",
+                                   ["input", "dictionary", "verbose", "output", "max_length", "additional_acronym"])
     except getopt.GetoptError as err:
         print(str(err))
         exit(-1)
@@ -52,7 +55,9 @@ def main(argv):
         elif o in ('-o', '--output'):
             outputfile = a
         elif o in ("-M", "--max_length"):
-            max_len = a
+            max_length = a
+        elif o in ("-a", "--additional_acronym"):
+            complement_acr = a
         else:
             assert False, "unhandled option!"
 
@@ -60,7 +65,7 @@ def main(argv):
     vocabulary = read_vocabulary(dictionaryfile)
 
     generator = Acronym_Discoverer(Keywords, vocabulary)
-    acronyms = generator.compute_acronyms(acronym_lengths=range(2, max_len))
+    acronyms = generator.compute_acronyms(acronym_lengths=range(2, max_len), add_acro=complement_acr)
     # bases = find_bases(Keywords)
     # acronyms = extract_acronyms(bases, vocabulary)
 
