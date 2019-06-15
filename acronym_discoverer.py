@@ -33,7 +33,6 @@ class Acronym_Discoverer:
         return self.bases
 
     def compute_acronyms(self, acronym_lengths=None, add_acro=None):
-        # TODO: introduce external Acronyms to wrap internally or at the side of the computed ones
         # TODO: Introduce Phonetical Acronyms via substitution of combinations of letters with similar sounds.
         bases = self.bases
         if acronym_lengths is None:
